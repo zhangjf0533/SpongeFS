@@ -25,25 +25,20 @@
 
 ## 1. Install Basic Development Tools
 
-Install GCC and other essential development tools:
+* Install GCC and other essential development tools:
 
 sudo yum install gcc gcc-c++
 sudo yum install autoconf automake libtool curl
 
 ## 2. Install Compression and Encryption Libraries
 
-Install libraries for compression and encryption:
-
 sudo yum install lzo-devel zlib-devel openssl openssl-devel ncurses-devel
 sudo yum install bzip2 bzip2-devel lzo lzo-devel lzop libXtst
 
 ## 3. Install CMake (Version 3.6 or higher)
 
-CMake is required for building native code and configuring the build system:
+* CMake is required for building native code and configuring the build system:
 
-sudo yum install cmake
-
-# If version is lower than 3.6, install manually:
 curl -L https://cmake.org/files/v3.6/cmake-3.6.0-rc2-Linux-x86_64.sh -o cmake-3.6.0-rc2-Linux-x86_64.sh
 sudo bash cmake-3.6.0-rc2-Linux-x86_64.sh --prefix=/usr/local
 
@@ -59,7 +54,7 @@ sudo yum install cyrus-sasl-devel
 
 ## 6. Install Maven
 
-# Maven is needed to manage dependencies and build Hadoop:
+* Maven is needed to manage dependencies and build Hadoop:
 
 sudo curl -O https://archive.apache.org/dist/maven/maven-3/3.5.4/binaries/apache-maven-3.5.4-bin.tar.gz
 sudo tar -zxvf apache-maven-3.5.4-bin.tar.gz
@@ -92,12 +87,9 @@ pip3 install numpy
 
 ## 10. Install Java 1.8 (OpenJDK 1.8)
 
-#Install OpenJDK 1.8:
+* Install OpenJDK 1.8:
 sudo yum install java-1.8.0-openjdk-devel
 
-## 11. Optional: Install Additional Compression Libraries
-
-sudo yum install lzop libXtst
 
 ##################################################################################
 # Verification
