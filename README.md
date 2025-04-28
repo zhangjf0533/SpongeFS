@@ -112,7 +112,7 @@ To use the **Rabbit equal-work data layout**, configure:
 
 ---
 
-4. Incremental Compilation Tip
+## 4. Incremental Compilation Tip
 If you modify only BlockPlacementPolicySpongeFS.java or BlockPlacementPolicyRabbit.java, you can rebuild just the HDFS module without recompiling the entire Hadoop source:
 
 ```bash
