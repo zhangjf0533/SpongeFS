@@ -101,13 +101,14 @@ To use the **SpongeFS equal-work data layout policy**, add the following propert
   <name>dfs.block.replicator.classname</name>
   <value>org.apache.hadoop.hdfs.server.blockmanagement.BlockPlacementPolicySpongeFS</value>
 </property>
-
+```
 To use the **Rabbit equal-work data layout**, configure:
 ```xml
 <property>
   <name>dfs.block.replicator.classname</name>
   <value>org.apache.hadoop.hdfs.server.blockmanagement.BlockPlacementPolicyRabbit</value>
 </property>
+```
 
 ---
 
