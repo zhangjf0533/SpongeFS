@@ -116,7 +116,7 @@ To use the **Rabbit equal-work data layout**, configure:
 If you modify only BlockPlacementPolicySpongeFS.java or BlockPlacementPolicyRabbit.java, you can rebuild just the HDFS module without recompiling the entire Hadoop source:
 
 ```bash
-cd spongeFS/hadoop-3.3.6-src/hadoop-hdfs-project/hadoop-hdfs/
+cd spongeFS/SpongeFS-src/hadoop-hdfs-project/hadoop-hdfs/
 mvn clean package -DskipTests
 ```
 
