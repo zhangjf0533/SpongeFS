@@ -71,7 +71,7 @@ During deployment, configure node IPs according to the expansion chain order (lo
 
 1. Navigate to the source directory:
     ```bash
-    cd SpongeFS/hadoop-3.3.6-src/
+    cd SpongeFS/SpongeFS-src/
     ```
 
 2. Adjust parameters `p`, `r`, `rth` in the following files if necessary:
