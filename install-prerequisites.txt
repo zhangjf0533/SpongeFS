@@ -1,0 +1,112 @@
+##################################################################################
+# Building Hadoop on CentOS 7.9
+##################################################################################
+
+## Requirements:
+
+* CentOS 7.9
+* JDK 1.8
+* Maven 3.3 or later
+* Boost 1.86.0
+* Protocol Buffers 3.7.1
+* CMake 3.6 or newer
+* Zlib devel
+* Cyrus SASL devel
+* GCC 9.3.0 or later, or Clang
+* OpenSSL devel
+* Doxygen (if compiling libhdfspp and generating documents)
+* Python
+* Bats (for shell code testing)
+* Node.js
+
+##################################################################################
+# Installing Required Packages
+##################################################################################
+
+## 1. Install Basic Development Tools
+
+* Install GCC and other essential development tools:
+
+sudo yum install gcc gcc-c++
+sudo yum install autoconf automake libtool curl
+
+## 2. Install Compression and Encryption Libraries
+
+sudo yum install lzo-devel zlib-devel openssl openssl-devel ncurses-devel
+sudo yum install bzip2 bzip2-devel lzo lzo-devel lzop libXtst
+
+## 3. Install CMake (Version 3.6 or higher)
+
+* CMake is required for building native code and configuring the build system:
+
+curl -L https://cmake.org/files/v3.6/cmake-3.6.0-rc2-Linux-x86_64.sh -o cmake-3.6.0-rc2-Linux-x86_64.sh
+sudo bash cmake-3.6.0-rc2-Linux-x86_64.sh --prefix=/usr/local
+
+edit /etc/profile to Update the PATH
+
+## 4. Install Snappy
+
+sudo yum install snappy-devel
+
+## 5. Install Cyrus SASL for Authentication
+
+sudo yum install cyrus-sasl-devel
+
+## 6. Install Maven
+
+* Maven is needed to manage dependencies and build Hadoop:
+
+sudo curl -O https://archive.apache.org/dist/maven/maven-3/3.5.4/binaries/apache-maven-3.5.4-bin.tar.gz
+sudo tar -zxvf apache-maven-3.5.4-bin.tar.gz
+
+edit /etc/profile to Update the PATH
+
+
+## 7. Install Protocol Buffers v3.7.1
+
+curl -L https://github.com/protocolbuffers/protobuf/releases/download/v3.7.1/protobuf-all-3.7.1.tar.gz -o protobuf-3.7.1.tar.gz
+tar -zxvf protobuf-3.7.1.tar.gz
+cd protobuf-3.7.1
+./configure
+make -j$(nproc)
+sudo make install
+
+## 8. Install Node.js
+
+curl -sL https://rpm.nodesource.com/setup_14.x | sudo bash -
+sudo yum install -y nodejs
+
+## 9. Install Python and Required Libraries
+Python is required for expansion-chain generation and other utilities. Additionally, install `numpy` libraries.
+
+sudo yum install python3
+
+# Install required Python libraries
+sudo yum install python3-pip
+pip3 install numpy
+
+## 10. Install Java 1.8 (OpenJDK 1.8)
+
+* Install OpenJDK 1.8:
+sudo yum install java-1.8.0-openjdk-devel
+
+
+##################################################################################
+# Verification
+
+Once the installation of all required packages is completed, verify the installation:
+
+# Verify CMake version
+cmake --version
+
+# Verify Maven version
+mvn -v
+
+# Verify Protocol Buffers installation
+protoc --version
+
+# Verify Node.js version
+node --version
+
+# Verify Snappy library installation
+ldconfig -p | grep snappy
