@@ -7,6 +7,7 @@ This repository contains the source code for the **SpongeFS** elastic distribute
 ## SpongeFS
 
 SpongeFS extends Hadoop Distributed File System (HDFS 3.3.6) to support **heterogeneity-aware equal-work data layout**, **dynamic elastic scaling**, and **optional write offloading** for cluster computing. Unlike traditional equal-work data layout implementations that assume homogeneous storage nodes, SpongeFS achieves a tradeoff between data balancing and throughput maximization while maintaining ideal power proportionality. When the optional write offloading mode is enabled, excess writes on overloaded primary nodes are redirected to non-primary nodes in proportion to their spare write throughput, alleviating write bottlenecks while keeping cleanup overhead low.
+
 ---
 
 ## Dynamical Expansion Chain Generation
