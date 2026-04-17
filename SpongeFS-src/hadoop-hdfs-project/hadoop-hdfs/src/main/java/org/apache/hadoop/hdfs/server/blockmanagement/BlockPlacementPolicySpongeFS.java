@@ -115,6 +115,27 @@ public class BlockPlacementPolicySpongeFS extends BlockPlacementPolicy {
    */
   protected int tolerateHeartbeatMultiplier;
 
+  // ======================================================================
+  //   SpongeFS Write Offloading switches (paper §3.3)
+  //
+  //   ENABLE_WRITE_OFFLOAD:
+  //     true  -> use the write-offloading data placement mode: excess
+  //              writes on overloaded primary nodes are redirected to
+  //              blue-shaded non-primary nodes in proportion to their
+  //              spare write throughput.
+  //     false -> use the pure heterogeneity-aware equal-work data
+  //              layout without any offloading.
+  //
+  //   OFFLOAD_SET_SIZE (only effective when ENABLE_WRITE_OFFLOAD==true):
+  //     -1 (OFFLOAD_SET_SIZE_AUTO) -> auto: SpongeFS picks the MINIMUM
+  //              m that absorbs the full primary overload.
+  //     >= p   -> manual: fix the total offload set size m to this value.
+  // ======================================================================
+  private static final boolean ENABLE_WRITE_OFFLOAD = false;
+  private static final int     OFFLOAD_SET_SIZE     =
+          WriteOffloadPolicy.OFFLOAD_SET_SIZE_AUTO;
+  private volatile WriteOffloadPolicy writeOffloadPolicy = null;
+
   protected BlockPlacementPolicySpongeFS() {
   }
 
@@ -166,6 +187,7 @@ public class BlockPlacementPolicySpongeFS extends BlockPlacementPolicy {
     });
   }
 
+  
   @Override
   public DatanodeStorageInfo[] chooseTarget(String srcPath,
                                             int numOfReplicas,
@@ -180,14 +202,26 @@ public class BlockPlacementPolicySpongeFS extends BlockPlacementPolicy {
     List<Node> nodes = clusterMap.getLeaves(NodeBase.ROOT);
     sortNodesByIP(nodes);
     int n = nodes.size();
-    int p = 3; //the number of primary node (Modify according to the actual configuration)
-    int r = 3;//replication factor (Modify according to the actual configuration)
+    int p = 4; // number of primary nodes (aligned with config.json)
+    int r = 3; // replication factor
     int bm = 0;
     ArrayList<Integer> blocksPerNode = new ArrayList<>();
 
-    //the read throughput of each node following the order of the extension chain (Modify according to the actual configuration)
-    int[] rth = {496, 496, 496, 184, 184, 184, 184, 184, 184, 184, 184, 184, 184, 355, 355, 355, 355, 355, 355, 355, 355, 355, 355, 496, 496, 496, 496, 496, 496, 496};
+    // Per-node READ throughput, expansion-chain order (MB/s).
+    // Must be consistent with config.json used by GetExpansionChain.py.
+    double[] rth = {
+            1042, 1042, 1042, 1042, 1042, 1042, 1042, 1042, 1042, 1042, 1042,
+            748,  748,  748,  748,  748,  748,  748,  748,  748,  748,
+            352,  352,  352,  352,  352,  352,  352,  352,  352
+    };
+    // Per-node WRITE throughput, expansion-chain order (MB/s).
+    double[] wth = {
+            1031, 1031, 1031, 1031, 1031, 1031, 1031, 1031, 1031, 1031, 1031,
+            741,  741,  741,  741,  741,  741,  741,  741,  741,  741,
+            352,  352,  352,  352,  352,  352,  352,  352,  352
+    };
 
+    // Count current replica distribution for the equal-work deviation logic.
     for (Node node : nodes) {
       if (node instanceof DatanodeDescriptor) {
         DatanodeDescriptor dn = (DatanodeDescriptor) node;
@@ -201,42 +235,86 @@ public class BlockPlacementPolicySpongeFS extends BlockPlacementPolicy {
     bm = bm / numOfReplicas + 1;
     List<DatanodeStorageInfo> results = new ArrayList<>();
 
-
+    // -------------------------------------------------------------------
+    //  Pick the least-loaded primary node (same as the original equal-work layout).
+    // -------------------------------------------------------------------
     int min_value = blocksPerNode.get(0), min_node_id = 0;
-    for (int i = 0 ; i<p; i++) {
+    for (int i = 0; i < p; i++) {
       if (min_value > blocksPerNode.get(i)) {
         min_value = blocksPerNode.get(i);
         min_node_id = i;
       }
     }
-    DatanodeDescriptor _dn = (DatanodeDescriptor) nodes.get(min_node_id);
+
+    // -------------------------------------------------------------------
+    //  Choose the actual primary-replica target.
+    //  - If ENABLE_WRITE_OFFLOAD == false:
+    //    use min_node_id as the target (original behaviour).
+    //  - If ENABLE_WRITE_OFFLOAD == true:
+    //    query WriteOffloadPolicy; overloaded excess may be
+    //    redirected to a blue-shaded non-primary node.
+    // -------------------------------------------------------------------
+    int primaryTargetIdx;
+    if (ENABLE_WRITE_OFFLOAD) {
+      if (writeOffloadPolicy == null) {
+        synchronized (this) {
+          if (writeOffloadPolicy == null) {
+            if (rth.length == n && wth.length == n) {
+              writeOffloadPolicy = new WriteOffloadPolicy(
+                      p, r, rth, wth, /*enabled=*/ true,
+                      OFFLOAD_SET_SIZE);
+            } else {
+              LOG.warn("SpongeFS: hardcoded rth/wth length ({}) does not "
+                              + "match live cluster size ({}); offloading disabled.",
+                      rth.length, n);
+              writeOffloadPolicy = new WriteOffloadPolicy(
+                      p, r, onesD(n), onesD(n), /*enabled=*/ false,
+                      WriteOffloadPolicy.OFFLOAD_SET_SIZE_AUTO);
+            }
+          }
+        }
+      }
+      primaryTargetIdx = writeOffloadPolicy.decidePrimaryTarget(
+              min_node_id, blocksize);
+    } else {
+      primaryTargetIdx = min_node_id;
+    }
+
+    DatanodeDescriptor _dn = (DatanodeDescriptor) nodes.get(primaryTargetIdx);
     chooseStorage4Block(_dn, blocksize, results, StorageType.DEFAULT);
-    
-    int sumI = 0;
+
+    double sumI = 0.0;
     for (int i = 0; i < p; i++) {
       sumI += rth[i];
     }
     Map<Node, Double> nodeDifferences = new HashMap<>();
     for (int i = p; i < n; i++) {
+      if (i == primaryTargetIdx) {
+        // already selected as offload target for the primary replica
+        sumI += rth[i];
+        continue;
+      }
       long currentBlocks = blocksPerNode.get(i);
       sumI += rth[i];
-      double difference = (rth[i] * bm)*1.0 / sumI - currentBlocks;
+      double difference = (rth[i] * bm) * 1.0 / sumI - currentBlocks;
       nodeDifferences.put(nodes.get(i), difference);
     }
 
-
-    List<Map.Entry<Node, Double>> sortedNodes = new ArrayList<>(nodeDifferences.entrySet());
+    List<Map.Entry<Node, Double>> sortedNodes =
+            new ArrayList<>(nodeDifferences.entrySet());
     sortedNodes.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
 
-    for (int i = 0; i < r-1 && i < sortedNodes.size(); i++) {
+    for (int i = 0; i < r - 1 && i < sortedNodes.size(); i++) {
       Node node = sortedNodes.get(i).getKey();
       DatanodeDescriptor dn = (DatanodeDescriptor) node;
       chooseStorage4Block(dn, blocksize, results, StorageType.DEFAULT);
     }
 
-    DatanodeStorageInfo[] storageInfos = results.toArray(new DatanodeStorageInfo[0]);
+    DatanodeStorageInfo[] storageInfos =
+            results.toArray(new DatanodeStorageInfo[0]);
     return storageInfos;
   }
+
 
 
 
@@ -1435,4 +1513,12 @@ public class BlockPlacementPolicySpongeFS extends BlockPlacementPolicy {
   public boolean getExcludeSlowNodesEnabled() {
     return excludeSlowNodesEnabled;
   }
+  
+  private static double[] onesD(int n) {
+    double[] a = new double[n];
+    java.util.Arrays.fill(a, 1.0);
+    return a;
+  }
+}
+
 }

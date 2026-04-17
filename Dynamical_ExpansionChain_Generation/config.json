@@ -1,222 +1,222 @@
 {
   "cluster": {
     "total_nodes": 30,
-    "primary_nodes": 3,
-    "dataset_size_GB": 1200,
+    "primary_nodes": 4,
     "replication": 3,
-    "alpha": 0.5,
-    "beta": 0.5
+    "blocksize_MB": 128,
+    "dataset_size_GB": 3000,
+    "lambda": 0.5
   },
   "node_configurations": [
     {
       "hostname": "node1",
-      "capacity_GiB": 1024,
-      "remaining_capacity_GiB": 975,
-      "read_throughput_MB_s": 496,
-      "write_throughput_MB_s": 467
+      "capacity_GiB": 1800,
+      "remaining_capacity_GiB": 1750,
+      "read_throughput_MB_s": 1042,
+      "write_throughput_MB_s": 1031
     },
     {
       "hostname": "node2",
-      "capacity_GiB": 1024,
-      "remaining_capacity_GiB": 975,
-      "read_throughput_MB_s": 496,
-      "write_throughput_MB_s": 467
+      "capacity_GiB": 1800,
+      "remaining_capacity_GiB": 1750,
+      "read_throughput_MB_s": 1042,
+      "write_throughput_MB_s": 1031
     },
     {
       "hostname": "node3",
-      "capacity_GiB": 1024,
-      "remaining_capacity_GiB": 975,
-      "read_throughput_MB_s": 496,
-      "write_throughput_MB_s": 467
+      "capacity_GiB": 1800,
+      "remaining_capacity_GiB": 1750,
+      "read_throughput_MB_s": 1042,
+      "write_throughput_MB_s": 1031
     },
     {
       "hostname": "node4",
-      "capacity_GiB": 1024,
-      "remaining_capacity_GiB": 975,
-      "read_throughput_MB_s": 496,
-      "write_throughput_MB_s": 467
+      "capacity_GiB": 1800,
+      "remaining_capacity_GiB": 1750,
+      "read_throughput_MB_s": 1042,
+      "write_throughput_MB_s": 1031
     },
     {
       "hostname": "node5",
-      "capacity_GiB": 1024,
-      "remaining_capacity_GiB": 975,
-      "read_throughput_MB_s": 496,
-      "write_throughput_MB_s": 467
+      "capacity_GiB": 1800,
+      "remaining_capacity_GiB": 1750,
+      "read_throughput_MB_s": 1042,
+      "write_throughput_MB_s": 1031
     },
     {
       "hostname": "node6",
-      "capacity_GiB": 1024,
-      "remaining_capacity_GiB": 975,
-      "read_throughput_MB_s": 496,
-      "write_throughput_MB_s": 467
+      "capacity_GiB": 1800,
+      "remaining_capacity_GiB": 1750,
+      "read_throughput_MB_s": 1042,
+      "write_throughput_MB_s": 1031
     },
     {
       "hostname": "node7",
-      "capacity_GiB": 1024,
-      "remaining_capacity_GiB": 975,
-      "read_throughput_MB_s": 496,
-      "write_throughput_MB_s": 467
+      "capacity_GiB": 1800,
+      "remaining_capacity_GiB": 1750,
+      "read_throughput_MB_s": 1042,
+      "write_throughput_MB_s": 1031
     },
     {
       "hostname": "node8",
-      "capacity_GiB": 1024,
-      "remaining_capacity_GiB": 975,
-      "read_throughput_MB_s": 496,
-      "write_throughput_MB_s": 467
+      "capacity_GiB": 1800,
+      "remaining_capacity_GiB": 1750,
+      "read_throughput_MB_s": 1042,
+      "write_throughput_MB_s": 1031
     },
     {
       "hostname": "node9",
-      "capacity_GiB": 1024,
-      "remaining_capacity_GiB": 975,
-      "read_throughput_MB_s": 496,
-      "write_throughput_MB_s": 467
+      "capacity_GiB": 1800,
+      "remaining_capacity_GiB": 1750,
+      "read_throughput_MB_s": 1042,
+      "write_throughput_MB_s": 1031
     },
     {
       "hostname": "node10",
-      "capacity_GiB": 1024,
-      "remaining_capacity_GiB": 975,
-      "read_throughput_MB_s": 496,
-      "write_throughput_MB_s": 467
+      "capacity_GiB": 1800,
+      "remaining_capacity_GiB": 1750,
+      "read_throughput_MB_s": 1042,
+      "write_throughput_MB_s": 1031
     },
     {
       "hostname": "node11",
-      "capacity_GiB": 2048,
-      "remaining_capacity_GiB": 2012,
-      "read_throughput_MB_s": 355,
-      "write_throughput_MB_s": 343
+      "capacity_GiB": 2400,
+      "remaining_capacity_GiB": 2340,
+      "read_throughput_MB_s": 748,
+      "write_throughput_MB_s": 741
     },
     {
       "hostname": "node12",
-      "capacity_GiB": 2048,
-      "remaining_capacity_GiB": 2012,
-      "read_throughput_MB_s": 355,
-      "write_throughput_MB_s": 343
+      "capacity_GiB": 2400,
+      "remaining_capacity_GiB": 2340,
+      "read_throughput_MB_s": 748,
+      "write_throughput_MB_s": 741
     },
     {
       "hostname": "node13",
-      "capacity_GiB": 2048,
-      "remaining_capacity_GiB": 2012,
-      "read_throughput_MB_s": 355,
-      "write_throughput_MB_s": 343
+      "capacity_GiB": 2400,
+      "remaining_capacity_GiB": 2340,
+      "read_throughput_MB_s": 748,
+      "write_throughput_MB_s": 741
     },
     {
       "hostname": "node14",
-      "capacity_GiB": 2048,
-      "remaining_capacity_GiB": 2012,
-      "read_throughput_MB_s": 355,
-      "write_throughput_MB_s": 343
+      "capacity_GiB": 2400,
+      "remaining_capacity_GiB": 2340,
+      "read_throughput_MB_s": 748,
+      "write_throughput_MB_s": 741
     },
     {
       "hostname": "node15",
-      "capacity_GiB": 2048,
-      "remaining_capacity_GiB": 2012,
-      "read_throughput_MB_s": 355,
-      "write_throughput_MB_s": 343
+      "capacity_GiB": 2400,
+      "remaining_capacity_GiB": 2340,
+      "read_throughput_MB_s": 748,
+      "write_throughput_MB_s": 741
     },
     {
       "hostname": "node16",
-      "capacity_GiB": 2048,
-      "remaining_capacity_GiB": 2012,
-      "read_throughput_MB_s": 355,
-      "write_throughput_MB_s": 343
+      "capacity_GiB": 2400,
+      "remaining_capacity_GiB": 2340,
+      "read_throughput_MB_s": 748,
+      "write_throughput_MB_s": 741
     },
     {
       "hostname": "node17",
-      "capacity_GiB": 2048,
-      "remaining_capacity_GiB": 2012,
-      "read_throughput_MB_s": 355,
-      "write_throughput_MB_s": 343
+      "capacity_GiB": 2400,
+      "remaining_capacity_GiB": 2340,
+      "read_throughput_MB_s": 748,
+      "write_throughput_MB_s": 741
     },
     {
       "hostname": "node18",
-      "capacity_GiB": 2048,
-      "remaining_capacity_GiB": 2012,
-      "read_throughput_MB_s": 355,
-      "write_throughput_MB_s": 343
+      "capacity_GiB": 2400,
+      "remaining_capacity_GiB": 2340,
+      "read_throughput_MB_s": 748,
+      "write_throughput_MB_s": 741
     },
     {
       "hostname": "node19",
-      "capacity_GiB": 2048,
-      "remaining_capacity_GiB": 2012,
-      "read_throughput_MB_s": 355,
-      "write_throughput_MB_s": 343
+      "capacity_GiB": 2400,
+      "remaining_capacity_GiB": 2340,
+      "read_throughput_MB_s": 748,
+      "write_throughput_MB_s": 741
     },
     {
       "hostname": "node20",
-      "capacity_GiB": 2048,
-      "remaining_capacity_GiB": 2012,
-      "read_throughput_MB_s": 355,
-      "write_throughput_MB_s": 343
+      "capacity_GiB": 2400,
+      "remaining_capacity_GiB": 2340,
+      "read_throughput_MB_s": 748,
+      "write_throughput_MB_s": 741
     },
     {
       "hostname": "node21",
-      "capacity_GiB": 3072,
-      "remaining_capacity_GiB": 3029,
-      "read_throughput_MB_s": 184,
-      "write_throughput_MB_s": 235
+      "capacity_GiB": 3600,
+      "remaining_capacity_GiB": 3510,
+      "read_throughput_MB_s": 352,
+      "write_throughput_MB_s": 352
     },
     {
       "hostname": "node22",
-      "capacity_GiB": 3072,
-      "remaining_capacity_GiB": 3029,
-      "read_throughput_MB_s": 184,
-      "write_throughput_MB_s": 235
+      "capacity_GiB": 3600,
+      "remaining_capacity_GiB": 3510,
+      "read_throughput_MB_s": 352,
+      "write_throughput_MB_s": 352
     },
     {
       "hostname": "node23",
-      "capacity_GiB": 3072,
-      "remaining_capacity_GiB": 3029,
-      "read_throughput_MB_s": 184,
-      "write_throughput_MB_s": 235
+      "capacity_GiB": 3600,
+      "remaining_capacity_GiB": 3510,
+      "read_throughput_MB_s": 352,
+      "write_throughput_MB_s": 352
     },
     {
       "hostname": "node24",
-      "capacity_GiB": 3072,
-      "remaining_capacity_GiB": 3029,
-      "read_throughput_MB_s": 184,
-      "write_throughput_MB_s": 235
+      "capacity_GiB": 3600,
+      "remaining_capacity_GiB": 3510,
+      "read_throughput_MB_s": 352,
+      "write_throughput_MB_s": 352
     },
     {
       "hostname": "node25",
-      "capacity_GiB": 3072,
-      "remaining_capacity_GiB": 3029,
-      "read_throughput_MB_s": 184,
-      "write_throughput_MB_s": 235
+      "capacity_GiB": 3600,
+      "remaining_capacity_GiB": 3510,
+      "read_throughput_MB_s": 352,
+      "write_throughput_MB_s": 352
     },
     {
       "hostname": "node26",
-      "capacity_GiB": 3072,
-      "remaining_capacity_GiB": 3029,
-      "read_throughput_MB_s": 184,
-      "write_throughput_MB_s": 235
+      "capacity_GiB": 3600,
+      "remaining_capacity_GiB": 3510,
+      "read_throughput_MB_s": 352,
+      "write_throughput_MB_s": 352
     },
     {
       "hostname": "node27",
-      "capacity_GiB": 3072,
-      "remaining_capacity_GiB": 3029,
-      "read_throughput_MB_s": 184,
-      "write_throughput_MB_s": 235
+      "capacity_GiB": 3600,
+      "remaining_capacity_GiB": 3510,
+      "read_throughput_MB_s": 352,
+      "write_throughput_MB_s": 352
     },
     {
       "hostname": "node28",
-      "capacity_GiB": 3072,
-      "remaining_capacity_GiB": 3029,
-      "read_throughput_MB_s": 184,
-      "write_throughput_MB_s": 235
+      "capacity_GiB": 3600,
+      "remaining_capacity_GiB": 3510,
+      "read_throughput_MB_s": 352,
+      "write_throughput_MB_s": 352
     },
     {
       "hostname": "node29",
-      "capacity_GiB": 3072,
-      "remaining_capacity_GiB": 3029,
-      "read_throughput_MB_s": 184,
-      "write_throughput_MB_s": 235
+      "capacity_GiB": 3600,
+      "remaining_capacity_GiB": 3510,
+      "read_throughput_MB_s": 352,
+      "write_throughput_MB_s": 352
     },
     {
       "hostname": "node30",
-      "capacity_GiB": 3072,
-      "remaining_capacity_GiB": 3029,
-      "read_throughput_MB_s": 184,
-      "write_throughput_MB_s": 235
+      "capacity_GiB": 3600,
+      "remaining_capacity_GiB": 3510,
+      "read_throughput_MB_s": 352,
+      "write_throughput_MB_s": 352
     }
   ]
 }
